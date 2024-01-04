@@ -15,7 +15,31 @@
         </div>
     </nav>
     <main class="container">
-
+        <form action="" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Név</label>
+                <input type="text" name="name" id="name" class="form-control">
+            </div>
+            <div class="mb-3" >
+                <label for="type" class="form-label">Típus</label>
+                <input type="text" name="type" id="type" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="layout" class="form-label">Lokalizáció</label>
+                <input type="text" name="layout" id="layout" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="width" class="form-label">Szélesség</label>
+                <input type="number" name="width" id="width" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="wireless" class="form-check-label">Vezeték nélküli</label>
+                <input type="radio" name="wireOrNot" id="wireless" value="wireless" class="form-check-input">
+                <label for="wired" class="form-check-label">Vezetékes</label>
+                <input type="radio" name="wireOrNot" id="wired" value="wired" class="form-check-input">
+            </div>
+            <button type="submit" class="btn btn-outline-success">Elküld</button>
+        </form>
     </main>
 </body>
 </html>
