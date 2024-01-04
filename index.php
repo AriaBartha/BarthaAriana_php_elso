@@ -8,6 +8,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </head>
 <body>
+    <?php
+        require_once "KeyboardsTableMethods.php";
+        $database = new KeyboardsTableMethods();
+        $keyboards = $database->getAll();
+    ?>
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark" fixed-top bg-body-tertiary>
         <div class="container-md">
             <a class="navbar-brand" href="index.php">Listázás</a>
@@ -23,11 +28,20 @@
                     <th>Típus</th>
                     <th>Localizáció</th>
                     <th>Szélesség</th>
-                    <th>Vezeték nélküli (igen/nem)</th>
+                    <th>Vezeték nélküli (igen=1 / nem=0)</th>
                 </tr>
             </thead>
             <tbody>
-
+            <?php foreach ($keyboards as $keyboard): ?>
+                <tr>
+                    <td><?php echo $keyboard['id'] ?></td>
+                    <td><?php echo $keyboard['name'] ?></td>
+                    <td><?php echo $keyboard['type'] ?></td>
+                    <td><?php echo $keyboard['layout'] ?></td>
+                    <td><?php echo $keyboard['width'] ?></td>
+                    <td><?php echo $keyboard['wireless'] ?></td>
+                </tr>
+            <?php endforeach; ?>    
             </tbody>
         </table>
     </main>
