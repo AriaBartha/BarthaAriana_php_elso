@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -14,6 +17,53 @@
             <a class="navbar-brand" href="felvetel.php">Felvétel</a>
         </div>
     </nav>
+    <?php      
+    $errors = [];
+    if (!isset($_POST["name"]) || empty($_POST["name"])){
+        $errors[] = "Billentyűzet nevének megadása kötelező";
+    }
+    if (!isset($_POST["type"]) || empty($_POST["type"])){
+        $errors[] = "Billentyűzet típus megadása kötelező";
+    }
+    if (!isset($_POST["layout"]) || empty($_POST["layout"])){
+        $errors[] = "Billenytyűzet lokalizáció megadása kötelező";
+    }
+    if (!isset($_POST["width"]) || empty($_POST["width"])){
+        $errors[] = "Billentyűzet szélességének megadása kötelező";
+    }
+    if (!isset($_POST["wireless"]) || empty($_POST["wireless"])){
+        $errors[] = "Kötelező megadni, hogy vezetékes-e vagy sem.";
+    }
+
+    if (empty($errors)){
+        require_once "KeyboardsTableMethods.php";
+        $database = new KeyboardsTableMethods();
+        $database->create($_POST);
+        $_SESSION['state'] = "success";
+        $_SESSION['message'] = "Sikeres adatfelvétel";
+    }else {
+        $_SESSION['state'] = "error";
+        $_SESSION['message'] = "Hiba történt az adatfelvétel során";
+        $_SESSION['errors'] = $errors;
+    }
+    
+    if (isset($_SESSION['state'])) {
+        echo "<p>".$_SESSION['message']."</p>";
+        switch ($_SESSION['state']) {
+            case 'success':
+                break;
+            case 'error':
+                foreach ($_SESSION['errors'] as $error) {
+                    echo "<p>$error</p>";
+                }
+                break;
+        }
+        unset($_SESSION['state']);
+        unset($_SESSION['message']);
+        unset($_SESSION['errors']);
+    }
+    ?>
+    
     <main class="container">
         <form action="" method="POST">
             <div class="mb-3">
@@ -42,29 +92,5 @@
             <button type="submit" class="btn btn-outline-success">Elküld</button>
         </form>
     </main>
-    <?php
-    $errors = [];
-    if (!isset($_POST["name"]) || empty($_POST["name"])){
-        $errors[] = "Billentyűzet nevének megadása kötelező";
-    }
-    if (!isset($_POST["type"]) || empty($_POST["type"])){
-        $errors[] = "Billentyűzet típus megadása kötelező";
-    }
-    if (!isset($_POST["layout"]) || empty($_POST["layout"])){
-        $errors[] = "Billenytyűzet lokalizáció megadása kötelező";
-    }
-    if (!isset($_POST["width"]) || empty($_POST["width"])){
-        $errors[] = "Billentyűzet szélességének megadása kötelező";
-    }
-    if (!isset($_POST["wireless"]) || empty($_POST["wireless"])){
-        $errors[] = "Kötelező megadni, hogy vezetékes-e vagy sem.";
-    }
-
-    if (empty($errors)){
-        require_once "KeyboardsTableMethods.php";
-        $database = new KeyboardsTableMethods();
-        $database->create($_POST);
-    }
-    ?>
 </body>
 </html>
